@@ -119,15 +119,11 @@ public:
 		mat[0][1] = mat[0][2] = mat[1][0] = mat[1][2] = mat[2][0] = mat[2][1] = 0;
 	}
 	Matrix(T data[]){
-		mat[0][0] = data[0];
-		mat[0][1] = data[1];
-		mat[0][2] = data[2];
-		mat[1][0] = data[3];
-		mat[1][1] = data[4];
-		mat[1][2] = data[5];
-		mat[2][0] = data[6];
-		mat[2][1] = data[7];
-		mat[2][2] = data[8];
+		for(int i=0,k=0;i<3;i++){
+			for(int j=0;j<3;j++,k++){
+				mat[i][j] = data[k];
+			}
+		}
 	}
 	Matrix(T x1,T x2,T x3,T x4,T x5,T x6,T x7,T x8,T x9){
 		mat[0][0] = x1;
@@ -190,20 +186,16 @@ public:
 	}
 	Matrix inverse(){
 		
-	    return this->adjacency().multiply(1 / this->determinate());
+	    return this->adjacency().divide(this->determinate());
 	}
 
 	Matrix transpose(){
 		Matrix a;
-		a.mat[0][0] = mat[0][0];
-		a.mat[0][1] = mat[0][1];
-		a.mat[0][2] = mat[0][2];
-		a.mat[1][0] = mat[1][0];
-		a.mat[1][1] = mat[1][1];
-		a.mat[1][2] = mat[1][2];
-		a.mat[2][0] = mat[2][0];
-		a.mat[2][1] = mat[2][1];
-		a.mat[2][2] = mat[2][2];
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				a.mat[i][j] = mat[i][j];
+			}
+		}
 		swap(a.mat[0][1],a.mat[1][0]);
 		swap(a.mat[0][2],a.mat[2][0]);
 		swap(a.mat[1][2],a.mat[2][1]);
@@ -212,85 +204,61 @@ public:
 
 	Matrix add(T x){
 		Matrix a;
-		a.mat[0][0] = mat[0][0] + x;
-		a.mat[0][1] = mat[0][1] + x;
-		a.mat[0][2] = mat[0][2] + x;
-		a.mat[1][0] = mat[1][0] + x;
-		a.mat[1][1] = mat[1][1] + x;
-		a.mat[1][2] = mat[1][2] + x;
-		a.mat[2][0] = mat[2][0] + x;
-		a.mat[2][1] = mat[2][1] + x;
-		a.mat[2][2] = mat[2][2] + x;
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				a.mat[i][j] = mat[i][j] + x;
+			}
+		}
 		return a;
 	}
 
 	Matrix subtract(T x){
 		Matrix a;
-		a.mat[0][0] = mat[0][0] - x;
-		a.mat[0][1] = mat[0][1] - x;
-		a.mat[0][2] = mat[0][2] - x;
-		a.mat[1][0] = mat[1][0] - x;
-		a.mat[1][1] = mat[1][1] - x;
-		a.mat[1][2] = mat[1][2] - x;
-		a.mat[2][0] = mat[2][0] - x;
-		a.mat[2][1] = mat[2][1] - x;
-		a.mat[2][2] = mat[2][2] - x;
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				a.mat[i][j] = mat[i][j] - x;
+			}
+		}
 		return a;
 	}
 
 	Matrix multiply(T x){
 		Matrix a;
-		a.mat[0][0] = mat[0][0] * x;
-		a.mat[0][1] = mat[0][1] * x;
-		a.mat[0][2] = mat[0][2] * x;
-		a.mat[1][0] = mat[1][0] * x;
-		a.mat[1][1] = mat[1][1] * x;
-		a.mat[1][2] = mat[1][2] * x;
-		a.mat[2][0] = mat[2][0] * x;
-		a.mat[2][1] = mat[2][1] * x;
-		a.mat[2][2] = mat[2][2] * x;
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				a.mat[i][j] = mat[i][j] * x;
+			}
+		}
 		return a;
 	}
 
 	Matrix divide(T x){
 		Matrix a;
-		a.mat[0][0] = mat[0][0] / x;
-		a.mat[0][1] = mat[0][1] / x;
-		a.mat[0][2] = mat[0][2] / x;
-		a.mat[1][0] = mat[1][0] / x;
-		a.mat[1][1] = mat[1][1] / x;
-		a.mat[1][2] = mat[1][2] / x;
-		a.mat[2][0] = mat[2][0] / x;
-		a.mat[2][1] = mat[2][1] / x;
-		a.mat[2][2] = mat[2][2] / x;
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				a.mat[i][j] = mat[i][j] / x;
+			}
+		}
 		return a;
 	}
 
 	Matrix add(Matrix<T> rhs){
 		Matrix a;
-		a.mat[0][0] = mat[0][0] + rhs.mat[0][0];
-		a.mat[0][1] = mat[0][1] + rhs.mat[0][1]; 
-		a.mat[0][2] = mat[0][2] + rhs.mat[0][2];
-	    a.mat[1][0] = mat[1][0] + rhs.mat[1][0]; 
-	    a.mat[1][1] = mat[1][1] + rhs.mat[1][1]; 
-	    a.mat[1][2] = mat[1][2] + rhs.mat[1][2];
-	    a.mat[2][0] = mat[2][0] + rhs.mat[2][0]; 
-	    a.mat[2][1] = mat[2][1] + rhs.mat[2][1]; 
-	    a.mat[2][2] = mat[2][2] + rhs.mat[2][2];
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				a.mat[i][j] = mat[i][j] + rhs.mat[i][j];
+			}
+		}
 	    return a;
 	}
 
 	Matrix subtract(Matrix<T> rhs){
 		Matrix a;
-		a.mat[0][0] = mat[0][0] - rhs.mat[0][0];
-		a.mat[0][1] = mat[0][1] - rhs.mat[0][1]; 
-		a.mat[0][2] = mat[0][2] - rhs.mat[0][2];
-	    a.mat[1][0] = mat[1][0] - rhs.mat[1][0]; 
-	    a.mat[1][1] = mat[1][1] - rhs.mat[1][1]; 
-	    a.mat[1][2] = mat[1][2] - rhs.mat[1][2];
-	    a.mat[2][0] = mat[2][0] - rhs.mat[2][0]; 
-	    a.mat[2][1] = mat[2][1] - rhs.mat[2][1]; 
-	    a.mat[2][2] = mat[2][2] - rhs.mat[2][2];
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				a.mat[i][j] = mat[i][j] - rhs.mat[i][j];
+			}
+		}
 	    return a;
 	}
 
@@ -309,51 +277,75 @@ public:
 	}
 
 	void display(){
-		cout<<mat[0][0]<<" "<<mat[0][1]<<" "<<mat[0][2]<<endl;
-		cout<<mat[1][0]<<" "<<mat[1][1]<<" "<<mat[1][2]<<endl;
-		cout<<mat[2][0]<<" "<<mat[2][1]<<" "<<mat[2][2]<<endl;
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				cout<<mat[i][j]<<" ";
+			}
+			cout<<endl;
+		}
 		cout<<endl;
 	}
 };
 int main(){
-	// cout<<"Enter the components of the vector in the form of ai + bj+ ck\n";
-	// cout<<"For vector A : ";
+	
 	float x,y,z;
 	cin>>x>>y>>z;
 	vector3d<float> A(x,y,z);
-	// cout<<"For vector B : ";
+	cout<<"vector A : "<<endl;
+	A.display();
+
+
 	cin>>x>>y>>z;
 	vector3d<float> B(x,y,z);
+	cout<<"vector B : "<<endl;
+	B.display();
+
+	cout<<"Addition of two vectors : "<<endl;
 	vector3d<float> R = A.addition(B);
 	R.display();
 
+	cout<<"Substraction of two vectors : "<<endl;
 	vector3d<float> R1 = A.substraction(B);
 	R1.display();
 
+	cout<<"Dot product of vector A and B : "<<endl;
 	float d = A.dot_product(B);
 	cout<<d<<endl;
 
+	cout<<"Cross product of vector A and B : "<<endl;
 	vector3d<float> R2 = A.cross_product(B);
 	R2.display();
 
+	cout<<"Magnitude of Vector A : "<<endl;
 	cout<<A.magnitude()<<endl;
+	cout<<"Magnitude of Vector B : "<<endl;
 	cout<<B.magnitude()<<endl;
 
+	cout<<"Unit/Normalized Vector of A : "<<endl;
 	vector3d<float> n = A.normalization();
 	n.display();
+
+	cout<<"Magnitude of Unit Vector : "<<endl;
 	cout<<n.magnitude()<<endl;
 
+	cout<<"Distance between two vectors A and B : "<<endl;
 	cout<<A.distance(B)<<endl;
 
+	cout<<"Direction between two vectors A and B (In radian) : "<<endl;
 	cout<<A.direction(B)<<" rad"<<endl;
 
+	cout<<"translation of vector A : "<<endl;
 	vector3d<float> T = A.translation(2 ,3, 4);
 	T.display();
 
+	cout<<"Rotation of Vector A : "<<endl;
 	vector3d<float> S = A.rotation(45,45);
 	S.display();
 
+	cout<<"scaling of vector A and B (Line) : "<<endl;
 	A.scaling(B,2,3);
+
+	cout<<endl<<endl<<"\t\t\tMatrix operations : "<<endl;
 	//---------------------------------------------------
 	// Matrix
 	float data[9];
@@ -361,24 +353,20 @@ int main(){
 		cin>>data[i];
 	}
 	Matrix<float> m(data);
-	//determinate..
-	cout<<"Determinate : "<<m.determinate()<<endl;
-	//Transpose
+	cout<<"Determinate : "<<m.determinate()<<endl<<endl;
+
 	cout<<"Transpose of given matrix"<<endl;
 	Matrix<float> transpose = m.transpose();
 	transpose.display();
 
-	//Adjacency
 	cout<<"Adjacency of given matrix"<<endl;
 	Matrix<float> adjacency = m.adjacency();
 	adjacency.display();
 
-	//Inverse
 	cout<<"Inverse of given matrix"<<endl;
 	Matrix<float> inverse = m.inverse();
 	inverse.display();
 
-	//Addition of two matrix
 	for(int i=0;i<9;i++) cin>>data[i];
 	cout<<"Addition of two matrix"<<endl;
 
