@@ -27,6 +27,7 @@ public:
 	vector3d translation(T tfx,T tfy,T tfz = 0);
 	vector3d rotation(T theta,T alpha);
 	void scaling(vector3d B, T sfx ,T sfy);
+	vector3d normal2Dplane(vector3d Q,vector3d R,vector3d S);
 };
 template <typename T>
 vector3d<T> vector3d<T> ::addition(vector3d<T> vec){
@@ -35,7 +36,7 @@ vector3d<T> vector3d<T> ::addition(vector3d<T> vec){
 
 template <typename T>
 vector3d<T> vector3d<T> ::substraction(vector3d<T> vec){
-	return vector3d(x-vec.x,y-vec.y,z-vec.z);
+	return vector3d(vec.x - x,vec.y - y,vec.z - z);
 }
 
 template <typename T>
@@ -108,6 +109,13 @@ void vector3d<T> :: scaling(vector3d B,T sfx, T sfy){
 	 B1.display();
 }
 
+template<typename T>
+vector3d<T> vector3d<T> :: normal2Dplane(vector3d Q,vector3d R, vector3d S){
+	vector3d<float> QR = Q.substraction(R);
+	vector3d<float> QS = Q.substraction(S);
+	vector3d<float> N = QR.cross_product(QS);
+	return N;
+}
 // Matrix 
 
 template<typename T>
@@ -149,7 +157,7 @@ public:
 		mat[2][2] = row2.z;		
 	}
 
-	Matrix identify(){
+	Matrix identity(){
 		return Matrix(1,0,0,0,1,0,0,0,1);
 	}
 
@@ -287,7 +295,7 @@ public:
 	}
 };
 int main(){
-	
+
 	float x,y,z;
 	cin>>x>>y>>z;
 	vector3d<float> A(x,y,z);
@@ -301,8 +309,8 @@ int main(){
 	B.display();
 
 	cout<<"Addition of two vectors : "<<endl;
-	vector3d<float> R = A.addition(B);
-	R.display();
+	vector3d<float> Res = A.addition(B);
+	Res.display();
 
 	cout<<"Substraction of two vectors : "<<endl;
 	vector3d<float> R1 = A.substraction(B);
@@ -339,8 +347,8 @@ int main(){
 	T.display();
 
 	cout<<"Rotation of Vector A : "<<endl;
-	vector3d<float> S = A.rotation(45,45);
-	S.display();
+	vector3d<float> S1 = A.rotation(45,45);
+	S1.display();
 
 	cout<<"scaling of vector A and B (Line) : "<<endl;
 	A.scaling(B,2,3);
@@ -381,5 +389,17 @@ int main(){
 	cout<<"Multiplication of two matrix"<<endl;
 	Matrix<float> mul = m.multiply(n1);
 	mul.display();
+
+	cin>>x>>y>>z;
+	vector3d<float> Q(x,y,z);
+	cin>>x>>y>>z;
+	vector3d<float> R(x,y,z);
+	cin>>x>>y>>z;
+	vector3d<float> S(x,y,z);
+
+	cout<<"Normal vector of 2D plane"<<endl;
+	vector3d<float> N;
+	N =  N.normal2Dplane(Q,R,S);
+	N.display();
 	return 0;
 }
