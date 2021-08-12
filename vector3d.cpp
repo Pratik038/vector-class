@@ -397,9 +397,13 @@ int main(){
 	cin>>x>>y>>z;
 	vector3d<float> S(x,y,z);
 
-	cout<<"Normal vector of 2D plane"<<endl;
+	cout<<"Normal of 2D plane"<<endl;
 	vector3d<float> N;
 	N =  N.normal2Dplane(Q,R,S);
 	N.display();
+
+	vector3d<float> N1 = N.normalization();
+	cout<<"Normal vector of 2D plane normal"<<endl;
+	N1.display();
 	return 0;
 }
